@@ -26,12 +26,12 @@ export default class News extends Component {
     return (
       <>
       <div className='container my-5'>
-        <h2>News Vitals- Get your daily news here!</h2>
+        <h2>News Vitals- Get your daily dose of news here!</h2>
         <div className='row'>
           {
             this.state.articles.map((element)=>{
               return <div className='col-md-4' key={element.url}>
-                <NewItems/>
+                <NewItems title={element.title} url={element.url} imgUrl={element.urlToImage} desc={element.description}/>
               </div>
             })
           }
