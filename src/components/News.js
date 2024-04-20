@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewItems from './NewItems'
+import Spinner from './Spinner';
 
 export default class News extends Component {
   constructor(){
@@ -14,38 +15,46 @@ export default class News extends Component {
 
   async componentDidMount(){
     let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=3ddfee9bf286413595b490c0fae359d0";
+    this.setState({loading:true});
     let data = await fetch(url);
     let parsedData=await data.json();
     console.log(parsedData)
     this.setState({
-      articles:parsedData.articles
+      articles:parsedData.articles,
+      loading:false
     })
 
   }
 
   handleNextClick=async ()=>{
     let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=3ddfee9bf286413595b490c0fae359d0&page=${this.state.page+1}`;
+    this.setState({loading:true})
     let data=await fetch(url);
     let parsedData=await data.json();
     this.setState({
       articles:parsedData.articles,
-      page:this.state.page+1
+      page:this.state.page+1,
+      loading:false
     })
   }
   handlePrevClick=async ()=>{
     let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=3ddfee9bf286413595b490c0fae359d0&page=${this.state.page-1}`;
+    this.setState({loading:true})
     let data=await fetch(url);
     let parsedData=await data.json();
     this.setState({
       articles:parsedData.articles,
-      page:this.state.page-1
+      page:this.state.page-1,
+      loading:false
     })
   }
   render() {
     return (
       <>
+      {this.state.loading && <Spinner/>}
       <div className='container my-3'>
         <h2>News Vitals- Get your daily dose of news here!</h2>
+        
         <div className='row'>
           {
             this.state.articles.map((element)=>{
